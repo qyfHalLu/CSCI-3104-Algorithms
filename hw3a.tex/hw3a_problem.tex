@@ -1,0 +1,371 @@
+\documentclass[12pt]{article}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\parindent}{0in}
+\setlength{\parskip}{\baselineskip}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage[]{algorithmicx}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+\usepackage{ wasysym }
+\usepackage[edges]{forest}
+\tikzset{iv/.style={draw,circle,minimum size=25pt,inner
+		sep=0.5pt,text=black},ev/.style={draw,rectangle,minimum
+		size=25pt,inner sep=1pt,text=black}}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headsep}{36pt}
+
+\usepackage{hyperref}
+
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\newcommand{\makenonemptybox}[2]{%
+%\par\nobreak\vspace{\ht\strutbox}\noindent
+\item[]
+\fbox{% added -2\fboxrule to specified width to avoid overfull hboxes
+% and removed the -2\fboxsep from height specification (image not updated)
+% because in MWE 2cm is should be height of contents excluding sep and frame
+\parbox[c][#1][t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
+  \hrule width \hsize height 0pt
+  #2
+ }%
+}%
+\par\vspace{\ht\strutbox}
+}
+\makeatother
+
+\begin{document}
+\lhead{{\bf CSCI 3104, Algorithms \\ Homework 3A (55 points)} }
+\rhead{Name: \fbox{ Qiuyang Fu
+\phantom{This is a really long name}} 
+\\ ID: \fbox{ 108667420
+\phantom{This is a student ID}} 
+\\ {\bf Escobedo \& Jahagirdar\\ Summer 2020, CU-Boulder}}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\phantom{Test}
+
+\begin{small}
+\textit{Advice 1}:\ For every problem in this class, you must justify your answer:\ show how you arrived at it and why it is correct. If there are assumptions you need to make along the way, state those clearly.
+%\vspace{-3mm} 
+
+\textit{Advice 2}:\ Verbal reasoning is typically insufficient for full credit. Instead, write a logical argument, in the style of a mathematical proof.\\
+%\vspace{-3mm} 
+
+\textbf{Instructions for submitting your solution}:
+\vspace{-5mm} 
+
+\begin{itemize}
+	\item The solutions \textbf{should be typed}, we cannot accept hand-written solutions. Here's a short intro to \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{\textbf{Latex}.}
+	 \item In this homework we denote the asymptomatic \textit{Big-O} notation by $\mathcal{O}$ and \textit{Small-O} notation is represented as $o$. 
+	\item We recommend using online Latex editor \href{https://www.overleaf.com/}{\textbf{Overleaf}}. Download the \textbf{.tex} file from Canvas and upload it on overleaf to edit.
+	%todo add link of gradescope
+	\item You should submit your work through \href{https://www.gradescope.com}{\textbf{Gradescope}}  only.
+	\item If you don't have an account on it, sign up for one using your CU email. You should have gotten an email to sign up. If your name based CU email doesn't work, try the identikey@colorado.edu version. 
+	\item Gradescope will only accept \textbf{.pdf} files (except for code files that should be submitted separately on Canvas if a problem set has them) and \textbf{try to fit your work in the box provided}. 
+	\item You cannot submit a pdf which has less pages than what we provided you as Gradescope won't allow it.
+   
+\end{itemize}
+\vspace{-4mm} 
+\end{small}
+
+\hrulefill
+\pagebreak
+
+\subsection*{Piazza threads for hints and further discussion}
+\begin{center}
+    \begin{tabular}{|c|}
+    \hline
+    Piazza Threads \\ [0.5ex] 
+    \hline \hline 
+     \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=42}{Question 1}\\
+     \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=43}{Question 2}\\
+     \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=44}{Question 3}\\
+     \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=45}{Question 4}\\
+
+    \hline
+    \end{tabular}
+\end{center}
+
+\textbf{Recommended reading}: \\
+\textbf{Greedy Algorithms}: 
+%Ch. 16 →  16.1, 16.2, 16.3; Ch. 2 →  2.1, 2.2
+\pagebreak
+
+\begin{enumerate}
+    \item {\itshape  
+    (5 pts) Assume you run your Huffman tree algorithm and you produce the following pre-fix codes. Describe why there must be an error in your algorithm.}
+\begin{verbatim}
+    S = 11
+    c = 10
+    i = 110
+    e = 100
+    n = 010
+\end{verbatim}
+    \makenonemptybox{2.5in}{Optimal codes are taken from the leaves, but in this case codes are taken from internal nodes (as in letter c). Pair of (S and i) and (C and e) are having same prefix, hence not satisfying the prefix code property of Huffmann coding. This makes decoding of string difficult. Even code for letter n is not satisfying the full binary tree property.
+  \newline  \\
+This can be checked from the Lemma 16.2 of Cormen which states that there exists
+an optimal prefix code for C in which the codewords for x and y have the same
+length and differ only in the last bit. None of the above prefix code satisfies this lemma.}
+    \clearpage
+    \item{\itshape 
+     (5 $\times$ 2 = 10 pts) Consider the given Huffman Tree.
+\begin{figure}[h!]
+\begin{center}
+%\includegraphics[scale=0.3]{huffman.png}
+\end{center}
+\end{figure} \\ \\
+
+\begin{enumerate}[label=(\alph*)]
+\item {\itshape Decode the string \textbf{"10011111010010001101101001"} encoded using the above Huffman encoding tree.}
+\makenonemptybox{2in}{Following are the prefix code:
+	\begin{itemize}
+		\item $b = 00$
+		\item $u = 1000$
+		\item $s = 1001$
+		\item $o = 101$
+		\item $f = 110$
+		\item $k = 111$
+\end{itemize}
+	 Encoded string: 1001|111|101|00|1000|110|110|110|110|1001
+ \newline Decoded string: skobufffs.}
+\clearpage
+\item {\itshape Decode the string \textbf{"1011110010001001"} encoded using the above Huffman encoding tree.}
+\makenonemptybox{2in}{
+	Following are the prefix code:
+	\begin{itemize}
+		\item $b = 00$
+		\item $u = 1000$
+		\item $s = 1001$
+		\item $o = 101$
+		\item $f = 110$
+		\item $k = 111$
+	\end{itemize}
+Encoded string:101|111|00|1000|10001  \newline Decoded string: ofbus.}
+\end{enumerate}
+
+}
+ \clearpage
+
+    \item{ \itshape
+    (15 pts) Consider the recurrence $F_{n} = F_{n-1} + 2F_{n-2}$, with the base cases $F_{0} = 1$ and $F_{1} = 2$. Suppose we have letters $v_{0}, \ldots, v_{7}$; the frequency of $v_{i}$ is given by $F_{i}$, where $i \in \{0, 1, 2... 6, 7\} $. Draw a Huffman tree for $v_{0}, \ldots, v_{7}$.}
+     \makenonemptybox{6.5in}{
+     	\begin{gather*}
+      F_{2} = F_{1}+2*F_{0} \\ 
+     F_{2} = 2 + 2*1\\
+     F_{2} = 4
+ \end{gather*}
+\begin{gather*} 
+F_{3} = F_{2}+2*F_{1}\\
+F_{3}  = 4 + 2*2\\
+F_{3}  = 8
+\end{gather*}
+\begin{gather*} 
+F_{4} = F_{3}+2*F_{2} \\ 
+F_{4} =  8 + 2*4\\
+F_{4} = 16
+\end{gather*}
+\begin{gather*} 
+F_{5} = F_{4}+2*F_{3} \\ 
+F_{5} = 16 + 2*8\\
+F_{5} = 32
+\end{gather*}
+\begin{gather*} 
+F_{6} = F_{5}+2*F_{4} \\ 
+F_{6} = 32 + 2*16\\
+F_{6} = 64
+\end{gather*}
+\begin{gather*} 
+F_{7} = F_{6}+2*F_{5} \\ 
+F_{7} = 64 + 2*32\\
+F_{7} = 128
+\end{gather*}
+}
+\newpage
+\makenonemptybox{6.5in}{
+Here the table of letters with corresponding frequency calculated from the recurrence relation.
+\begin{center}
+
+
+\begin{tabular}{ |c | c | c|}
+	\hline
+	$v_{i}$ & $F_{n}=F_{n-1}+2*F_{n-2}$ & Prefixcode \\ \hline
+	$v_{0}$& 1 &0000000\\ \hline
+	$v_{1}$& 2 &0000001 \\ \hline
+	$v_{2}$& 4&000001\\ \hline
+	$v_{3}$& 8&00001\\ \hline
+	$v_{4}$& 16&0001\\ \hline
+	$v_{5}$& 32&01\\ \hline
+	$v_{6}$& 64&01\\ \hline
+	$v_{7}$& 128&1\\ \hline
+\end{tabular}
+\end{center}
+}
+\newpage
+\makenonemptybox{6.5in}{
+\begin{center}
+\begin{forest}
+	for tree={where n children={0}{ev}{iv},l+=10mm,
+		if n=1{edge label={node [midway, left] {0} } }{edge label={node [midway, right] {1} } },}
+	[255
+	[127
+	[63%,el=O  
+	[31
+	[15
+	[7
+	[3
+	[$v{0}$ (1)]
+	[$v{1}$ (2)]
+	]
+	[$v{2}$ (4)]]
+	[$v{3}$ (8)]	] 
+	[$v{4}$ (16)]	] 
+	[$v{5}$ (32)]	]
+	[$v{6}$ (64)]	]
+	[$v{7}$ (128)]	]
+	]
+\end{forest}
+\end{center}
+}  
+    
+
+    
+	\item{
+	 \itshape (25 pts) In this question we consider the changemaking problem, of
+making change for n cents using the smallest number of coins. Suppose we have coins
+with denominations of $v_1 > v_2 > ... v_r$ for $r$ coins types, where each coin's value $v_i$ is a positive integer. Your goal is to determine how many coins of each denomination $d_i$ are required to reach the sum $n$, such that the total number of coins used is minimized (i.e the value of $\sum_{i=1}^{r}d_i = k$  is minimized).
+
+Note that the sum of all included coins should be $n$. (i.e $\sum_{i=1}^{r}d_iv_i = n$)
+	}
+	
+	\begin{enumerate}[label=(\alph*)]
+	 
+	\item{ \itshape
+	    (15 pts)
+        A greedy algorithm for making change is the \textbf{cashier's algorithm}. In cashier's algorithm at each iteration we add a coin of highest value ensuring that it does not take us past the value $n$. The above step is repeated until the sum reaches $n$. If it is not possible to reach the sum $n$ the algorithm returns no solution as the answer.  
+        Consider the following pseudocode meant to implement the cashier's algorithm where $n$ is the
+amount of money to make change for and $v$ is a vector of the coin denominations sorted in descending order and the vector $d$ should hold the count of number of coins in each denomination.}
+     \begin{Verbatim}[numbers=left,xleftmargin=15mm, numbersep=10pt]
+get_change(n, v, r):
+{
+    d[1...r] = 1
+    while(n>0)
+    {
+        k=r
+        while(k>0 and v[k]>n)
+        {
+            k++
+        }
+        if(k <= 0)
+        {
+            return 'no solution'
+        }
+        else
+        {
+            n = n-v[k]
+        }
+    }
+    return d
+}
+    \end{Verbatim}
+ 
+{\itshape This code has bugs. Identify the bugs and explain why each would cause the
+algorithm to fail.}
+
+	\makenonemptybox{2in}{
+		\textbf {Bug 1:} $d[1 \cdots r]$ should be initialized to zero,as in the begining no denomination is selected. \newline
+		\par\textbf {Bug 2:} Value of d is not been updated in the while loop, all denomination values would be equal for any cases.\newline
+		\par \textbf {Bug 3:} Condition of $2^{nd}$ while loop should be $(k>0 and v[k]\geq n)$ and value of k should be decremented by 1.Otherwise with the given condition, the code runs into infinite loop.
+	}
+	
+	\item{\itshape $(10$ pts$)$
+	Assume that a country has the following coin denominations. \\$\{\$1, \$6, \$10, \$15\}$.
+	Provide two examples for which the greedy algorithm does not yield an optimal solution for making
+change. In both the examples also show the optimal solution adds that adds up to the same value using smaller set of coins. 
+	}
+	
+    \makenonemptybox{4in}{
+    	\textbf {Eg 1:} For $n=12$, greedy method would first select \$10 and then it will select 2 \$1 coins ie $d[1,6,10,15]=[2,0,1,0]$.Total of 3 coins selected. If we draw recurrence tree for ({\$1,\$6,\$10,\$15},12) $\rightarrow$({\$10},2)$\rightarrow$({\$1},1)$\rightarrow$({\$1},0), we see 2 similar pattern,where \$1 is repeated twice. \\ 
+    	Optimal solution would be selecting 2 \$6  coins. ie $d[1,6,10,15]=[0,2,0,0]$. Total of 2 coins selected.
+    	\newline
+    	\par \textbf{Eg 2:} For $n=13$, greedy method would first select \$10 and then it will select 3 \$1 coins ie $d[1,6,10,15]=[3,0,1,0]$.Total of 4 coins selected.\\ 
+    	Optimal solution would be selecting 2 \$6 and 1 \$1 coins. ie $d[1,6,10,15]=[1,2,0,0]$. Total of 3 coins selected.
+    	
+    }
+	
+	 \end{enumerate}
+
+\clearpage
+\item{\itshape \textbf{Extra Credit (5\% of total homework grade)}
+    For this extra credit question, please refer the leetcode link provided below or click \href{https://leetcode.com/problems/jump-game/}{here}. Multiple solutions exist to this question ranging from brute force to the most optimal one. Points will be provided based on Time and Space Complexities relative to that of the most optimal solution.
+
+    Please provide your solution with proper comments which carries points as well.}
+    
+   \url{https://leetcode.com/problems/jump-game/}
+
+    % Paste your code in the verbatim tag below
+\begin{Verbatim}[numbers=left,xleftmargin=15mm, numbersep=10pt]
+class Solution {
+
+public:
+
+bool canJump(vector<int>& nums) 
+{
+//2 pointer approach, Time complexity:O(n), space complexity:O(1).
+//one ptr is the start and another ptr is placed at the second last element 
+
+	int n = nums.size()-1;
+	int lptr=0,rptr=nums.size()-2;
+
+//Traversing the array from right to left until the rptr
+// reaches the beyond the index lptr
+
+	while(lptr<=rptr)
+
+	{
+		jmp_stp = n-rptr;
+	
+//Check relative to that index,whether jump is possible or not
+//If jmp is possible, update n to index of right pointer
+//else decrement index of right ptr
+
+		if(nums[rptr]>=jmp_stp)
+
+		{
+			n = rptr;
+			rptr--;
+		}
+
+		else
+			rptr--;
+
+		
+	}
+//If the requuired jump is equal to 0, last index has been reached.
+
+	if(n==0)
+		return true;
+	else
+		return false;
+	}
+};
+\end{Verbatim}
+
+
+	
+	
+\end{enumerate}
+
+
+\end{document}
+
+
