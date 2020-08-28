@@ -1,0 +1,204 @@
+\documentclass[12pt]{article}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\parindent}{0in}
+\setlength{\parskip}{\baselineskip}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage[]{algorithmicx}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headsep}{36pt}
+
+\usepackage{hyperref}
+
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\newcommand{\makenonemptybox}[2]{%
+%\par\nobreak\vspace{\ht\strutbox}\noindent
+\item[]
+\fbox{% added -2\fboxrule to specified width to avoid overfull hboxes
+% and removed the -2\fboxsep from height specification (image not updated)
+% because in MWE 2cm is should be height of contents excluding sep and frame
+\parbox[c][#1][t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
+  \hrule width \hsize height 0pt
+  #2
+ }%
+}%
+\par\vspace{\ht\strutbox}
+}
+\makeatother
+
+\begin{document}
+%todo [points for homework 0]
+\lhead{{\bf CSCI 3104, Algorithms \\ Homework 1B (70 points)} }
+\rhead{Name: \fbox{% Place your name here and delete the next time
+\phantom{This is a really long name}} 
+\\ ID: \fbox{ % Place your ID here and delete the next time
+\phantom{This is a student ID}} 
+\\ {\bf Escobedo \& Jahagirdar\\ Summer 2020, CU-Boulder}}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\phantom{Test}
+
+\begin{small}
+\textit{Advice 1}:\ For every problem in this class, you must justify your answer:\ show how you arrived at it and why it is correct. If there are assumptions you need to make along the way, state those clearly.
+%\vspace{-3mm} 
+
+\textit{Advice 2}:\ Verbal reasoning is typically insufficient for full credit. Instead, write a logical argument, in the style of a mathematical proof.\\
+%\vspace{-3mm} 
+
+\textbf{Instructions for submitting your solution}:
+\vspace{-5mm} 
+
+\begin{itemize}
+	\item The solutions \textbf{should be typed}, we cannot accept hand-written solutions. Here's a short intro to \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{\textbf{Latex}.}
+	 \item In this homework we denote the asymptomatic \textit{Big-O} notation by $\mathcal{O}$ and \textit{Small-O} notation is represented as $o$. 
+	\item We recommend using online Latex editor \href{https://www.overleaf.com/}{\textbf{Overleaf}}. Download the \textbf{.tex} file from Canvas and upload it on overleaf to edit.
+	%todo add link of gradescope
+	\item You should submit your work through \href{https://www.gradescope.com}{\textbf{Gradescope}}  only.
+	\item If you don't have an account on it, sign up for one using your CU email. You should have gotten an email to sign up. If your name based CU email doesn't work, try the identikey@colorado.edu version. 
+	\item Gradescope will only accept \textbf{.pdf} files (except for code files that should be submitted separately on Canvas if a problem set has them) and \textbf{try to fit your work in the box provided}. 
+	\item You cannot submit a pdf which has less pages than what we provided you as Gradescope won't allow it.
+   
+\end{itemize}
+\vspace{-4mm} 
+\end{small}
+
+\hrulefill
+\pagebreak
+
+\subsection*{Piazza threads for hints and further discussion}
+\begin{center}
+    \begin{tabular}{|c|}
+    \hline
+    Piazza Threads \\ [0.5ex] 
+    \hline \hline 
+    \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=13}{Question 1}\\
+    \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=14}{Question 2}\\
+
+    \hline
+    \end{tabular}
+\end{center}
+
+\textbf{Recommended reading}: For complete background read Chapters 1, 2 and 3. Chapter 3 will especially be helpful. 
+
+\begin{enumerate}
+
+
+	
+    \item{
+        \itshape ($4 \times 10 = 40$ pts) For each part of this question, put the growth rates in order, from slowest-growing to fastest. That is, if your answer is $f_1(n), f_2(n), . . . , f_k(n)$, then $f_i(n) \leq \mathcal{O}(f_{i+1}(n))$ for all i. If two adjacent ones are asymptotically the same (that is, $f_i(n) = \Theta(f_{i+1}(n))$), you must specify this as well.
+    }
+
+    \begin{enumerate}[label=(\alph*)]
+
+        \item Polynomials.\\
+        $n^{\frac{1}{2}}, n+10, n^{\frac{1}{3}}, n^3, n^3+n^2+100,     2^{100}$
+        \makenonemptybox{3in}{
+        }
+        
+        \item Logarithms and related functions.\\
+        $\log_3 n^2,  (\log_3 n)^3, \log_3 n, \log_5 n^2, \log_2 n,     \sqrt{n}$
+        \makenonemptybox{3in}{
+        }
+        
+        \item Logarithms in exponents.\\
+        $n^{\log_3 n},  n^{\frac{1}{\log_3 n}}, n^{\log_4 n}, 1, n$
+        \makenonemptybox{3in}{
+        }
+        
+.        \item Exponentials. (hint: Recall \href{https://en.wikipedia.org/wiki/Stirling\%27s_approximation}{Stirling’s approximation}, which says that  $n! \sim (\frac{n}{e})^n \sqrt{2 \pi n}$ i.e. $ \lim_{n \to \infty} \frac{n!}{(\frac{n}{e})^{n} \sqrt{2\pi n}} = 1$)\\ \\
+        $n!, n^5,  2^{2n}, 2^{2n+7}, 5^{n\log_5(n)$
+        \makenonemptybox{3in}{
+        }
+        
+     
+    
+    \end{enumerate}
+    
+     \item{
+        \itshape ($3 \times 10 = 30$ pts) For each of the following algorithms, analyze the worst-case running time. You should
+        give your answer in $\mathcal{O}$ notation. You do not need to give an input which achieves your worst-case bound, but you should try to give as tight a bound as possible. \\
+        Justify your answer (show your work). This likely means discussing the number of atomic operations in each line, and how many times it runs.
+        }
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+            \begin{Verbatim}[numbers=left,xleftmargin=15mm, numbersep=10pt]
+count = 0
+for(i = 1; i < n; i = i + 1)
+{
+    for(j = i; j < n; j = j + 1)
+    {
+        count = count+1
+    }
+}
+            \end{Verbatim}
+        \makenonemptybox{3in}{
+        }
+        
+        \item 
+            \begin{Verbatim}[numbers=left,xleftmargin=15mm, numbersep=10pt]
+count = 0
+for(i = 1; i <= n; i = i * 2)
+{
+    for(j = 0; j < n; j = j + 2)
+    {
+        count = count+1
+    }
+}
+            \end{Verbatim}
+        \makenonemptybox{3in}{
+        }
+        
+        \item Here A is a list of integers of size atleast 2 and sqrt(n) returns the square root value of its argument. You can assume that the upper bound of calculating square root takes big $\mathcal{O}(k)$ time. Provide an upper bound in terms of $n$ and $k$.
+            \begin{Verbatim}[numbers=left,xleftmargin=15mm, numbersep=10pt]
+count = 0
+for(i = 0; i < n; i = i + 1)
+{
+    for(j = i+1; j < n; j = j + 1)
+    {
+        if(A[i]>sqrt(A[j]))
+        {
+             count = count+1
+        }
+           
+    }
+}
+            \end{Verbatim}
+        \makenonemptybox{3in}{
+        }
+        
+        
+    \end{enumerate}
+    
+    \item \textbf{Extra Credit (5\% of total homework grade)}
+    For this extra credit question, please refer the leetcode link provided below or click \href{https://leetcode.com/problems/product-of-array-except-self/}{here}. Multiple solutions exist to this question ranging from brute force to the most optimal one. Points will be provided based on Time and Space Complexities relative to that of the most optimal solution.
+
+    Please provide your solution with proper comments which carries points as well.
+    
+   \url{https://leetcode.com/problems/product-of-array-except-self/}
+    
+% Paste your code in the verbatim tag below
+\begin{verbatim}
+Replace this text with your source code inside of the .tex document
+\end{verbatim}
+ 
+	
+\end{enumerate}
+
+
+\end{document}
+
+

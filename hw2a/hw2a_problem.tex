@@ -1,0 +1,296 @@
+\documentclass[12pt]{article}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\parindent}{0in}
+\setlength{\parskip}{\baselineskip}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage[]{algorithmicx}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headsep}{36pt}
+
+\usepackage{hyperref}
+
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\newcommand{\makenonemptybox}[2]{%
+%\par\nobreak\vspace{\ht\strutbox}\noindent
+\item[]
+\fbox{% added -2\fboxrule to specified width to avoid overfull hboxes
+% and removed the -2\fboxsep from height specification (image not updated)
+% because in MWE 2cm is should be height of contents excluding sep and frame
+\parbox[c][#1][t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
+  \hrule width \hsize height 0pt
+  #2
+ }%
+}%
+\par\vspace{\ht\strutbox}
+}
+\makeatother
+
+\begin{document}
+\lhead{{\bf CSCI 3104, Algorithms \\ Homework 2A (45 points)} }
+\rhead{Name: \fbox{% Place your name here and delete the next time
+\phantom{This is a really long name}} 
+\\ ID: \fbox{ % Place your ID here and delete the next time
+\phantom{This is a student ID}} 
+\\ {\bf Escobedo \& Jahagirdar\\ Summer 2020, CU-Boulder}}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\phantom{Test}
+
+\begin{small}
+\textit{Advice 1}:\ For every problem in this class, you must justify your answer:\ show how you arrived at it and why it is correct. If there are assumptions you need to make along the way, state those clearly.
+%\vspace{-3mm} 
+
+\textit{Advice 2}:\ Verbal reasoning is typically insufficient for full credit. Instead, write a logical argument, in the style of a mathematical proof.\\
+%\vspace{-3mm} 
+
+\textbf{Instructions for submitting your solution}:
+\vspace{-5mm} 
+
+\begin{itemize}
+	\item The solutions \textbf{should be typed}, we cannot accept hand-written solutions. Here's a short intro to \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{\textbf{Latex}.}
+	 \item In this homework we denote the asymptomatic \textit{Big-O} notation by $\mathcal{O}$ and \textit{Small-O} notation is represented as $o$. 
+	\item We recommend using online Latex editor \href{https://www.overleaf.com/}{\textbf{Overleaf}}. Download the \textbf{.tex} file from Canvas and upload it on overleaf to edit.
+	%todo add link of gradescope
+	\item You should submit your work through \href{https://www.gradescope.com}{\textbf{Gradescope}}  only.
+	\item If you don't have an account on it, sign up for one using your CU email. You should have gotten an email to sign up. If your name based CU email doesn't work, try the identikey@colorado.edu version. 
+	\item Gradescope will only accept \textbf{.pdf} files (except for code files that should be submitted separately on Canvas if a problem set has them) and \textbf{try to fit your work in the box provided}. 
+	\item You cannot submit a pdf which has less pages than what we provided you as Gradescope won't allow it.
+   
+\end{itemize}
+\vspace{-4mm} 
+\end{small}
+
+\hrulefill
+\pagebreak
+
+\subsection*{Piazza threads for hints and further discussion}
+\begin{center}
+    \begin{tabular}{|c|}
+    \hline
+    Piazza Threads \\ [0.5ex] 
+    \hline \hline 
+    \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=29}{Question 1}\\
+    \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=30}{Question 2}\\
+    \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=31}{Question 3}\\
+    \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=32}{Question 4}\\
+    \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=33}{Question 5}\\
+    
+    \hline
+    \end{tabular}
+\end{center}
+
+\textbf{Recommended reading}: Divide \& Conquer; Recurrence Relations: Ch. 2 →  2.3; Ch. 4 →  4.1, 4.2, 4.3, 4.4, 4.5. The three methods for solving recurrences from \textbf{4.3} - \textbf{4.5} is important. 
+
+\pagebreak
+
+\begin{enumerate}
+
+	\item{
+	 \itshape (5 $\times$ 4 = 20 pts) Solve the following recurrence relations. For each case, show your work.
+	}
+	
+	\begin{enumerate}[label=(\alph*)]
+	 
+	\item{
+	 \itshape $T(n) = 3T(n-1) + 1$ if $n>1$ and $T(1) = \Theta(1)$ 
+	 }
+	\makenonemptybox{6.5in}{
+	It is obvious that the recurrence relations can be showed as below:
+	\begin{equation}
+	\begin{aligned}
+	T(n) &= 3T(n-1)+1 \\
+	&= 9T(n-2)+4 \\
+	&= 27T(n-3) + 13 \\
+	&= 81T(n-4) + 40 \\
+	&= ... \\
+	&= 3^{n-1}T(1) + \frac{3^{n-1}-1}{2}
+	\end{aligned}
+	\end{equation}
+	Since $T(1) = \Theta(1)$, so $T(n)=\Theta(3^{n})$.
+	}
+	
+	\pagebreak
+	\item
+	{
+	 \itshape $T(n) = 2T(\frac{n}{3}) + \Theta(n)$ if $n>1$ and $T(1) = \Theta(1)$ 
+	 }
+	\makenonemptybox{6.5in}{
+	Using master theorem, it is obvious that $a = 2$, $b=3$, $f(n)=\Theta(n)$, since $f(n)$ is larger then $n^{log_b a}=n^{log_3 2}$, so $T(n)=\Theta(n)$.
+	}
+	
+	\pagebreak
+	
+	\item
+	{
+	 \itshape $T(n) = 3T(\frac{n}{2}) + \Theta(n)$ if $n>1$ and $T(1) = \Theta(1)$
+	 }
+	\makenonemptybox{6.5in}{
+	Using master theorem, it is obvious that $a = 3$, $b=2$, $f(n)=\Theta(n)$, since $f(n)$ is smaller then $n^{log_b a}=n^{log_2 3}$, so $T(n)=\Theta(n^{log_2 3})$.
+	}
+	
+	\pagebreak
+	 
+	 
+	 \item
+	 {
+	 \itshape $T(n) = 4T(\frac{n}{2}) + \Theta(n^2)$ if $n>1$ and $T(1) = \Theta(1)$ 
+	 }
+	\makenonemptybox{6.5in}{
+	Using master theorem, it is obvious that $a = 4$, $b=2$, $f(n)=\Theta(n^2)$, since $f(n)=\Theta(n^2)$ then $T(n)=\Theta(n^2\log n)$.
+	}
+	
+	\pagebreak
+	 \end{enumerate}
+	 
+	 \item{
+	 \itshape (5 pts) Can master's theorem be applied to solve the following recurrence \\
+	 $T(n) = 8T(\frac{n}{2}) + n^3 \log(n)$. If $n>1$ and $T(1) = \Theta(1)$}\\
+	  {Prove that the above recurrence cannot be solved using Master's theorem by showing that none of the three conditions required to apply the theorem are satisfied by the recurrence.}
+	 \makenonemptybox{6in}{
+	 The recurrence cannot be solved using Master's theorem since it is obvious that $a = 8$, $b=2$, $f(n)=n^3\log(n)$. Here we can get $n^{\log_b^a}=n^3$, but the relation between $f(n)$ and $n^{\log_b^a}$ is not polynomially smaller or larger which cannot fit into the first and third cases in Master's theorem. The ratio $f(n)/n^{\log_b^a}=\log(n)$ is asymptotically less than $n^{\epsilon}$ for any positive constant $\epsilon$. Consequently, the recurrence falls to solve using Master's theorem.
+	}
+	\pagebreak
+	
+	\item{
+	\itshape  (5 $\times$ 2 = 10 pts) Consider the following functions. For each of them, determine how many times is ‘hi’ printed in terms of the input n (i.e in Asymptotic Notation of n). You should first write down a recurrence and then
+solve it using the \textbf{recursion tree method}. That means you should write down the
+first few levels of the recursion tree, specify the pattern, and then solve.
+	}
+	 
+	\begin{enumerate}[label=(\alph*)]
+	    \item
+	    \begin{Verbatim}[numbers=left,xleftmargin=15mm, numbersep=10pt]
+def fun(n) {
+    if (n > 1) {
+        print( ‘hi’ ‘hi’ ‘hi’ )
+        fun(n/3)
+        fun(n/3)
+    }
+}
+            \end{Verbatim}
+        \makenonemptybox{5in}{
+        In this problem, the recurrence relation is $T(n) = 2T(\frac{n}{3}) + 3$, using recursion tree method, the recurrence tree is showed as below. From the tree, we can get that the subproblem size for a node at depth $i$ is $n/3^i$. Thus, the tree has $\log_3 n + 1$ levels and $2^{\log_3 n}$ leaf. The total number of 'hi' printed at depth $i$, for $i=0,1,2,...,\log_3 n - 1$, is $2^i \times 3$. Finally, the total number of 'hi' printed is $\sum_{i=0}^{\log_3 n - 1} 2^i \times 3=3\times (2^{\log_3^n}-1)$.
+        \begin{center}
+	\includegraphics[width=0.78\linewidth]{images/p3-1}\\
+	\vspace{2mm}
+	\end{center}
+        
+	    }
+	    \pagebreak
+	    \item 
+	    \begin{Verbatim}[numbers=left,xleftmargin=15mm, numbersep=10pt]
+def fun(n) {
+    if (n > 1) {
+        for i=1 to n {
+            print( ‘hi’ ‘hi’ )
+        }
+        fun(n/3)
+        fun(n/3)
+    }
+}	        
+	    \end{Verbatim}
+	    \makenonemptybox{5.5in}{
+	    In this problem, the recurrence relation is $T(n) = 2T(\frac{n}{3}) + 2n$, using recursion tree method, the recurrence tree is showed as below. From the tree, we can get that the subproblem size for a node at depth $i$ is $n/3^i$. Thus, the tree has $\log_3 n + 1$ levels and $2^{\log_3 n}$ leaf. The total number of 'hi' printed at depth $i$, for $i=0,1,2,...,\log_3 n - 1$, is $2^i(n/3^i)\times 2=(2/3)^i n \times 2$. Finally, the total number of 'hi' printed is $\sum_{i=0}^{\log_3 n - 1} (2/3)^i n \times 2=6n\times (1-(2/3)^{\log_{3}^n})$.
+	    \begin{center}
+	\includegraphics[width=0.78\linewidth]{images/p3-2}\\
+	\vspace{2mm}
+	\end{center}
+	    }
+	    
+	\end{enumerate}
+	\pagebreak
+	\item{
+	\itshape  (5 pts)
+	Let $T(n) = 3T(\frac{n}{3}) + n$, where $T(n)$ is constant when $n \leq 3$. Using unrolling, determine tight asymptotic bounds for $T(n)$.  That is, find a function $g(n)$ such that $T(n) \in \Theta(g(n)$). Clearly show all your work
+	}
+	\makenonemptybox{6.5in}{
+	After unrolling the recurrence, the relation can be showed as below: 
+	\begin{equation}
+	\begin{aligned}
+	T(n) &= 3T(n/3)+n \\
+	&= 9T(n/9)+2n \\
+	&= 27T(n/27) + 3n \\
+	&= 81T(n/81) + 4n \\
+	&= ... \\
+	&= nT(1) + n\log_3 n
+	\end{aligned}
+	\end{equation}
+	From the unrolling result above, it is obvious that $g(n) = n\log_3 n$.
+	}
+	\item{\textit{(5 pts)
+	Consider the following pseudo-code.}
+	\begin{Verbatim}[numbers=left,xleftmargin=15mm, numbersep=10pt]
+def fun(A[1,2,3....n]) {
+    if A.length == 0:
+        return 0
+    count = 1
+    for i=1 to n:
+        for j=1 to n:
+            count++
+    return 1 + fun(A[1,2,3.....n-2])
+}	        
+	    \end{Verbatim}
+	    \textit{Find a recurrence for the worst-case runtime complexity of this algorithm. Then solve
+your recurrence and get a tight bound on the worst-case runtime complexity}.
+	}
+    \makenonemptybox{4.5in}{
+       From the code it is obvious that the worst-case recurrence relation is showed as $T(n) = T(n - 2) + n^2$. Using unrolling method, the worst-case runtime complexity is $T(n)=T(1) + 1^2+3^2+5^2+...+n^2=O(n^3)$.
+	}
+	
+\pagebreak
+    
+    \item{\itshape \textbf{Extra Credit (5\% of total homework grade)}
+    For this extra credit question, please refer the leetcode link provided below or click \href{https://leetcode.com/problems/maximum-subarray/}{here}. Multiple solutions exist to this question ranging from brute force to the most optimal one. Points will be provided based on Time and Space Complexities relative to that of the most optimal solution.
+
+    Please provide your solution with proper comments which carries points as well.}
+    
+   \url{https://leetcode.com/problems/maximum-subarray/}
+
+    % Paste your code in the verbatim tag below
+\begin{verbatim}
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        if(nums.size() == 0){
+            return 0;
+        }
+        int start = 1;
+        int maxSum = nums[0];
+        int states[nums.size()];
+        // using dp to record the previous states avoiding unnecessary calculation
+        states[0] = nums[0];
+        while(start < nums.size()){
+           // record the state of current position
+            states[start] = states[start-1] > 0 ? 
+            (states[start-1] + nums[start]):(nums[start]);
+            // update the max sum if necessary
+            if(states[start] > maxSum){
+                maxSum = states[start];
+            }
+            start++;
+        }
+        return maxSum;
+    }
+};
+\end{verbatim}
+	
+\end{enumerate}
+
+
+\end{document}
+
+
