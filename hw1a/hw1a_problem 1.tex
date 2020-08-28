@@ -1,0 +1,225 @@
+\documentclass[12pt]{article}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\parindent}{0in}
+\setlength{\parskip}{\baselineskip}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage[]{algorithmicx}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headsep}{36pt}
+
+\usepackage{hyperref}
+
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\newcommand{\makenonemptybox}[2]{%
+%\par\nobreak\vspace{\ht\strutbox}\noindent
+\item[]
+\fbox{% added -2\fboxrule to specified width to avoid overfull hboxes
+% and removed the -2\fboxsep from height specification (image not updated)
+% because in MWE 2cm is should be height of contents excluding sep and frame
+\parbox[c][#1][t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
+  \hrule width \hsize height 0pt
+  #2
+ }%
+}%
+\par\vspace{\ht\strutbox}
+}
+\makeatother
+
+\begin{document}
+%todo [points for homework 0]
+\lhead{{\bf CSCI 3104, Algorithms \\ Homework 1A (30 points)} }
+\rhead{Name: \fbox{% Place your name here and delete the next time
+\phantom{This is a really long name}} 
+\\ ID: \fbox{ % Place your ID here and delete the next time
+\phantom{This is a student ID}} 
+\\ {\bf Escobedo \& Jahagirdar\\ Summer 2020, CU-Boulder}}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\phantom{Test}
+
+\begin{small}
+\textit{Advice 1}:\ For every problem in this class, you must justify your answer:\ show how you arrived at it and why it is correct. If there are assumptions you need to make along the way, state those clearly.
+%\vspace{-3mm} 
+
+\textit{Advice 2}:\ Verbal reasoning is typically insufficient for full credit. Instead, write a logical argument, in the style of a mathematical proof.\\
+%\vspace{-3mm} 
+
+\textbf{Instructions for submitting your solution}:
+\vspace{-5mm} 
+
+\begin{itemize}
+	\item The solutions \textbf{should be typed}, we cannot accept hand-written solutions. Here's a short intro to \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{\textbf{Latex}.}
+	 \item In this homework we denote the asymptomatic \textit{Big-O} notation by $\mathcal{O}$ and \textit{Small-O} notation is represented as $o$. 
+	\item We recommend using online Latex editor \href{https://www.overleaf.com/}{\textbf{Overleaf}}. Download the \textbf{.tex} file from Canvas and upload it on overleaf to edit.
+	%todo add link of gradescope
+	\item You should submit your work through \href{https://www.gradescope.com}{\textbf{Gradescope}}  only.
+	\item If you don't have an account on it, sign up for one using your CU email. You should have gotten an email to sign up. If your name based CU email doesn't work, try the identikey@colorado.edu version. 
+	\item Gradescope will only accept \textbf{.pdf} files (except for code files that should be submitted separately on Canvas if a problem set has them) and \textbf{try to fit your work in the box provided}. 
+	\item You cannot submit a pdf which has less pages than what we provided you as Gradescope won't allow it.
+   
+\end{itemize}
+\vspace{-4mm} 
+\end{small}
+
+\hrulefill
+\pagebreak
+
+\subsection*{Piazza threads for hints and further discussion}
+\begin{center}
+    \begin{tabular}{|c|}
+    \hline
+    Piazza Threads \\ [0.5ex] 
+    \hline \hline 
+    \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=10}{Question 1}\\
+    \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=11}{Question 2}\\
+    \href{https://piazza.com/class/ka2roz7rb9m3j4?cid=12}{Question 3}\\
+    
+    \hline
+    \end{tabular}
+\end{center}
+
+\textbf{Recommended reading}: For complete background read Chapters 1, 2 and 3. Chapter 3 will especially be helpful.
+
+\begin{enumerate}
+
+	\item{
+	    \itshape (5 pts) Provide an example of \textbf{unique} functions $f(n)$, $g(n)$, $h(n)$ such that \\ 
+	    $f(n) \in \mathcal{O}(g(n))$ is an asymptotic upper bound.  \\ 
+	    $f(n) \in \mathcal{O}(h(n))$ is an asymptotically \textbf{tight} upper bound. \\  
+	    and also give a brief description of the difference between asymptotically \textbf{tight} upper bound and asymptotic upper bound.
+	   
+	}
+	\makenonemptybox{3in}{
+	If $f(n)=2n$, $g(n)=n^2$, $h(n)=n$, then we can say $f(n) \in \mathcal{O}(g(n))$ is an asymptotic upper bound and $f(n) \in \mathcal{O}(h(n))$ is an asymptotically \textbf{tight} upper bound. \\
+	Asymptotically upper bound may or may not be asymptotically tight upper. Just as the example showed above. If asymptotically upper bound is asymptotically tight upper, it means the function $f(n)$ becomes significant relative to $g(n)$ as n approaches infinity. However as to asymptotically upper bound, function $f(n)$ may become insignificant relative to $g(n)$ as n approaches infinity.
+	}
+	
+	\pagebreak
+
+	\item{
+	    \itshape (5 pts) The small $o$-notation is used to represent upper bounds that are not asymptotically \textbf{tight}.\\
+	    State if the above statement is true or false and briefly justify your answer by comparing the small $o$-notation to big $\mathcal{O}$-notation . \\ 
+	}
+	\makenonemptybox{3in}{
+	The above statement is true. If a certain function satisfied small $o$-notation then it also satisfied the big $\mathcal{O}$-notation. But if a certain function satisfied big $\mathcal{O}$-notation, it may or may not satisfied small $o$-notation. \\
+	The main difference is that in $f(n) \in \mathcal{O}(g(n))$, the bound $0 \le f(n) \le cg(n)$ holds for some constant $c > 0 $, but in $f(n) \in o(g(n))$, the bound $0 \le f(n) < cg(n)$ holds for all constants $c > 0$.
+}
+	
+	\item{\itshape ($4 \times 5 = 20$ pts) For each of the following pairs of functions $f(n)$ and $g(n)$, we have that $f(n) \in \mathcal{O}(g(n))$. Find valid constants $c$ and $n_{0}$ in accordance with the definition of big $\mathcal{O}$-notation. For the sake of this assignment, both $c$ and $n_{0}$ should be strictly less than $20$. You do \textbf{not} need to formally prove that $f(n) \in \mathcal{O}(g(n))$. For example if it is known that $g(n)$ grows faster than $f(n)$, you need not state or formally prove. (that is, no induction proof or use of limits is needed).}
+	
+
+    \begin{enumerate}[label=(\alph*)]
+
+        \item $f(n) = n$ and $g(n) = n\log_e(n)$.
+        \makenonemptybox{1.5in}{
+        Valid constants $c=1$, $n_{0}=3$.
+      
+        }
+        
+        \item $f(n) = n!$ and $g(n) = 2^{n\log_{2}(n)}$. 
+        \makenonemptybox{1.5in}{
+        Since $g(n) = 2^{n\log_{2}(n)}=n^n$, it is obvious that valid constants $c=1$, $n_{0}=1$ satisfied.
+        }
+        
+        
+        \item $f(n) = 3^{n}$ and $g(n) = (2n)!$
+        \makenonemptybox{1.5in}{
+        Valid constants $c=1$, $n_{0}=2$.
+        
+        }
+        
+        \item $f(n) = n \log_{10}(n)$ and $g(n) = n \log_{2}(n)$
+        % 
+        \makenonemptybox{1.5in}{
+       	Valid constants $c=1$, $n_{0}=1$.
+        }
+
+    \end{enumerate}
+
+\pagebreak
+    
+    \item \textbf{Extra Credit (5\% of total homework grade)}
+    For this extra credit question, please refer the leetcode link provided below or click \href{https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/}{here}. Multiple solutions exist to this question ranging from brute force to the most optimal one. Points will be provided based on Time and Space Complexities relative to that of the most optimal solution.
+
+    Please provide your solution with proper comments which carries points as well.
+    
+   \url{https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/}
+
+    % Paste your code in the verbatim tag below
+ The two solution below will all run in $O(n)$ time complexity with space complexity of $O(1)$ does not include result space. \\
+ Solution 1:
+\begin{verbatim}
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        // The solution below without extra space and in O(n) runtime, 
+        // the returned list does not count as extra space.
+        vector<int> result;
+        // Change all the elements in the array to its right places
+        for(int i = 0;i < nums.size();i++) {
+            int tmp = nums[i];
+            int index = i + 1;
+            while (tmp != index) {
+                int value = tmp;
+                int right_place = value - 1;
+                tmp = nums[right_place];
+                nums[right_place] = value;   
+                index = right_place + 1;
+            }
+        }
+        // elements that does not in the right place is absent
+        for(int i = 0;i < nums.size();i++) {
+            if (nums[i] != i + 1) {
+                result.push_back(i + 1);
+            }
+        }
+        return result;
+    }
+};
+\end{verbatim}
+Solution 2:
+\begin{verbatim}
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        // The solution below without extra space and in O(n) runtime, 
+        // the returned list does not count as extra space.
+        vector<int> result;
+        for(int i = 0;i < nums.size();i++) {
+            int index = abs(nums[i]) - 1;
+            // make the value to be negative which is in the array 
+            if (nums[index] > 0) {
+                nums[index] = -nums[index]; 
+            }
+        }
+        // positive values in the array is absent
+        for(int i = 0;i < nums.size();i++) {
+            if (nums[i] > 0) {
+                result.push_back(i + 1);
+            }
+        }  
+        return result;
+    }
+};
+\end{verbatim}
+	
+\end{enumerate}
+
+
+\end{document}
+
+
